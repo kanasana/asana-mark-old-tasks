@@ -1,0 +1,17 @@
+{
+  "name": "asana-board-mark-old-cards",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel -d dist ./index.js",
+    "postbuild": "prepend ./dist/index.js 'javascript:'"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-minify": "^0.3.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "prepend-file-cli": "^1.0.6"
+  }
+}
