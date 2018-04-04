@@ -97,7 +97,7 @@ const markCard = (dayThreshold) => ({card, task}) => {
     card.style.backgroundColor = 'red';
   }
   const daysDisplay = document.createElement('div');
-  daysDisplay.innerText = `${task.days} days`;
+  daysDisplay.innerText = task.days > 0 ? `${task.days} days` : 'today';
   daysDisplay.classList.add('days-display');
   Object.keys(dataDisplayStyle).forEach((key) => daysDisplay.style[key] = dataDisplayStyle[key]);
   if(!card.querySelector('.days-display')) {
