@@ -12,7 +12,7 @@ const fetchJsonWithAuth = (url, options={}) => fetch(`https://app.asana.com/api/
   .then(res => res.data);
 
 
-const getSections = () => fetchJsonWithAuth('/projects/301372175870724/sections');
+const getSections = () => fetchJsonWithAuth(`/projects/${window.location.href.split('/')[4]}/sections`);
 
 const getTasks = (section) =>  fetchJsonWithAuth(`/sections/${section}/tasks`);
 
@@ -22,13 +22,13 @@ const getStories = ({id}) => fetchJsonWithAuth(`/tasks/${id}/stories`);
 const groupSectionsByName = (sections) => sections.reduce((acc, {name, id}) => ({...acc, [name.toLowerCase()]: id}) , {})
 
 const getRelevantSection = (sections) => new Promise((res, rej) => {
-  const boardName = prompt('Enter board name').toLowerCase();
+  const boardName = prompt('Enter section name').toLowerCase();
 
   res({id: sections[boardName], label: boardName});
 });
 
 const getDayThreshold = () => new Promise((res, rej) => {
-  res(prompt('Enter number of days'));
+  res(prompt('Enter threshold days'));
 });
 
 const normalizeStories = (story, i, arr) => {
