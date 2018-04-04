@@ -78,22 +78,24 @@ const getRelevantStories = (projectName, sectionName) => (stories) =>  stories
 
 const dataDisplayStyle = {fontSize: '11px', display: 'inline-flex', alignItems: 'flex-end', marginLeft: '0.3em', color: '#000'};
 
-const markOldCards =  (sectionName) => (tasksAboveThresholds) => {
+const addDaysAndMarkOldCards =  (sectionName, dayThreshold, tasks) => {
+  console.log('here');
   const sectionBoards = document.querySelectorAll('.BoardColumn.BoardBody-column.BoardBody-columnInBoardWithViewMenu');
   const sectionBoard = [...sectionBoards].find(x => x.querySelector('.BoardColumnHeaderTitle').innerText.toLowerCase() === sectionName);
   const taskCards = sectionBoard.querySelectorAll('.BoardCardWithCustomProperties.BoardColumnCardsContainer-item');
-
   [...taskCards]
     .map((x) => {
-      const task = tasksAboveThresholds.find((task) => task.name === x.querySelector('.BoardCardWithCustomProperties-name').innerText);
+      const task = tasks.find((task) => task.name === x.querySelector('.BoardCardWithCustomProperties-name').innerText);
       return {task, card: x};
     })
     .filter(x => x.task)
-    .forEach(markCard);
+    .forEach(markCard(dayThreshold));
 }
 
-const markCard = ({card, task}) => {
-  card.style.backgroundColor = 'red';
+const markCard = (dayThreshold) => ({card, task}) => {
+  if(task.days >= dayThreshold) {
+    card.style.backgroundColor = 'red';
+  }
   const daysDisplay = document.createElement('div');
   daysDisplay.innerText = `${task.days} days`;
   daysDisplay.classList.add('days-display');
@@ -110,8 +112,7 @@ const getStoriesForTasks = (projectName, sectionName) => (tasks) => Promise.all(
 .then((stories) => stories.map(getRelevantStories(projectName, sectionName)))
 .then(setTaskDays(tasks))
 .then((tasksWithDays) => getDayThreshold()
-    .then((days) => tasksWithDays.filter(x => x.days > days))
-    .then(markOldCards(sectionName))
+    .then((days) => addDaysAndMarkOldCards(sectionName, days, tasksWithDays))
 )
 
 const getTasksForSection = (projectName) => ({label: sectionName, id}) => getTasks(id)
