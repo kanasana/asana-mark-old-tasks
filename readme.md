@@ -3,5 +3,5 @@
 Highlights cards in a specified session that are older than specified number of days.
 
 ## Usage
-
- - Use the `dist/index.js` as a bookmarklet
+ - Replace `'<auth-token-here>'` in `dist/index.js` with your auth token 
+ - Use it as a bookmarklet
