@@ -31,7 +31,7 @@ const getDayThreshold = () => new Promise((res, rej) => {
   res(prompt('Enter threshold days'));
 });
 
-const normalizeStories = (story, i, arr) => {
+const normalizeStories = (sectionName) => (story, i, arr) => {
   if(story.type === 'added') {
     story.from = null;
     if(arr[i+1]) {
@@ -72,7 +72,7 @@ const getRelevantStories = (projectName, sectionName) => (stories) =>  stories
     }
     return acc;
   }, [])
-  .map(normalizeStories)
+  .map(normalizeStories(sectionName))
   .reverse()
   .find(story => story.to.toLowerCase() === sectionName);
 
